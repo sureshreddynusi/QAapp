@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RAG QA App</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        input[type=text] { width: 60%; padding: 10px; }
+        button { padding: 10px 20px; }
+        #answer { margin-top: 20px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h2>Ask a Question</h2>
+    <input type="text" id="question" placeholder="Type your question..." />
+    <button onclick="askQuestion()">Ask</button>
+
+    <div id="answer"></div>
+
+    <!-- JAVASCRIPT GOES HERE -->
+    <script>
+        async function askQuestion() {
+            let question = document.getElementById("question").value;
+            if (!question) return;
+
+            try {
+                const response = await fetch("/query", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ question: question })
+                });
+
+                const data = await response.json();
+                console.log(data);  // for debugging in browser console
+
+                if (data.answer) {
+                    document.getElementById("answer").innerHTML =
+                        "<b>Answer:</b> " + data.answer +
+                        "<br><b>Sources:</b> " + data.sources.join(", ");
+                } else {
+                    document.getElementById("answer").innerHTML = "Error: " + (data.error || "Unknown");
+                }
+            } catch (err) {
+                document.getElementById("answer").innerHTML = "Error connecting to backend: " + err;
+            }
+        }
+    </script>
+</body>
+</html>

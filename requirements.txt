@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+langchain
+langchain-ollama
+langchain-community
+chromadb
+pypdf
+jinja2
+requests
