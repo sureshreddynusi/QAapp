@@ -38,7 +38,7 @@ vectorstores=Chroma.from_documents(documents=docs,embedding=embedding,persist_di
 #retriever
 retriever=vectorstores.as_retriever()
 
-#llm model which is ollama
+#llm model which is ollama 3.2 latest
 llm = ChatOllama(model="llama3.2:latest")
 
 #prompt template
