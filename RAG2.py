@@ -70,11 +70,10 @@ rag_chain=RetrievalQA.from_chain_type(
 def get_answer(request: RequestQuery):
     try:    
         result = rag_chain.invoke({"query": request.question})
-
+        #add the 
         return {
             "question": request.question,
             "answer": result["result"],
-
             "sources": [doc.metadata for doc in result["source_documents"]]
         }
     except Exception as e:
