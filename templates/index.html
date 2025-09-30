@@ -9,6 +9,11 @@
         #answer { margin-top: 20px; white-space: pre-wrap; }
     </style>
 </head>
+<h3>Upload PDF</h3>
+<input type="file" id="fileInput" />
+<button onclick="uploadFile()">Upload PDF</button>
+<div id="uploadStatus"></div>
+
 <body>
     <h2>Ask a Question</h2>
     <input type="text" id="question" placeholder="Type your question..." />
@@ -44,5 +49,27 @@
             }
         }
     </script>
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
+            if (!file) return alert("Please select a file");
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("/uploadfile/", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+                document.getElementById("uploadStatus").innerText = data.message || "File uploaded!";
+            } catch (err) {
+                document.getElementById("uploadStatus").innerText = "Upload error: " + err;
+            }
+        }
+    </script>
+
 </body>
 </html>
